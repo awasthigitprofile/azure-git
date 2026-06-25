@@ -1,15 +1,25 @@
+name: Deploy Pipeline
+
 on:
   push:
     branches:
-    - main
-    - release/*
-on:
+      - main
+      - 'release/*'
+
   pull_request:
     branches:
-    - main
-on:
+      - main
+
   workflow_dispatch:
+
 jobs:
   my_job:
-    name: deploy to staging
+    name: Deploy to Staging
     runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Test
+        run: echo "Deploying to Staging"
