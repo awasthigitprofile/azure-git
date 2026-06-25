@@ -1,25 +1,29 @@
-name: Deploy Pipeline
+name: Terraform Deploy
 
 on:
   push:
     branches:
       - main
-      - 'release/*'
-
-  pull_request:
-    branches:
-      - main
-
-  workflow_dispatch:
 
 jobs:
-  my_job:
-    name: Deploy to Staging
-    runs-on: ubuntu-22.04
+  terraform:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Test
-        run: echo "Deploying to Staging"
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
